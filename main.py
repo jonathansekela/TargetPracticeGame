@@ -11,7 +11,7 @@ pg.init()
 
 SCREEN_WIDTH = 928
 SCREEN_HEIGHT = 793
-BACKGROUND = (202, 228, 241)  # @todo: turn this into something worthwhile
+BACKGROUND = (0, 0, 0)  # @todo: turn this into something worthwhile
 
 screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pg.display.set_caption('Target Practice')
