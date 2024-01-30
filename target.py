@@ -16,17 +16,17 @@ class Chimp(pg.sprite.Sprite):
         self.area = screen.get_rect()
         self.rect.topleft = 10, 90
         self.move = 18
-        self.dizzy = False
+        self.hit = False
 
     def update(self):
-        """walk or spin, depending on the monkeys state"""
-        if self.dizzy:
-            self._spin()
+        """move or break, depending on target's state"""
+        if self.hit:
+            self._break()
         else:
             self._walk()
 
     def _walk(self):
-        """move the monkey across the screen, and turn at the ends"""
+        """move the target across the screen, and turn at the ends"""
         newpos = self.rect.move((self.move, 0))
         if not self.area.contains(newpos):
             if self.rect.left < self.area.left or self.rect.right > self.area.right:
@@ -35,20 +35,20 @@ class Chimp(pg.sprite.Sprite):
                 self.image = pg.transform.flip(self.image, True, False)
         self.rect = newpos
 
-    def _spin(self):
-        """spin the monkey image"""
+    def _break(self):
+        """spin the target image"""
         center = self.rect.center
-        self.dizzy = self.dizzy + 12
-        if self.dizzy >= 360:
-            self.dizzy = False
+        self.hit = self.hit + 12
+        if self.hit >= 360:
+            self.hit = False
             self.image = self.original
         else:
             rotate = pg.transform.rotate
-            self.image = rotate(self.original, self.dizzy)
+            self.image = rotate(self.original, self.hit)
         self.rect = self.image.get_rect(center=center)
 
     def punched(self):
-        """this will cause the monkey to start spinning"""
-        if not self.dizzy:
-            self.dizzy = True
+        """this will cause the target to start spinning"""
+        if not self.hit:
+            self.hit = True
             self.original = self.image
