@@ -26,6 +26,11 @@ pg.mixer.music.load('Music/Of Far Different Nature - 0 to 100 (CC-BY).ogg')
 pg.mixer.music.set_volume(.5)  # 50% original volume
 pg.mixer.music.play(-1, 0.0, 5000)
 
+# Create The Background
+background = pg.Surface(screen.get_size())
+background = background.convert()
+background.fill((0, 0, 0))
+
 game_running = True
 menu_running = True
 # endregion
@@ -56,15 +61,12 @@ targ = target.Target("168.png", "sprites/red crosshairs")
 allsprites = pg.sprite.RenderPlain((targ, gune))
 
 clock = pg.time.Clock()
+pg.mouse.set_visible(False)
 
 # region game loop
 while game_running:
 	clock.tick(60)
-	# update background
-	screen.fill((0, 0, 0))
 
-	screen.blit(title_text, title_text_rect)
-	
 	# event handler
 	for event in pg.event.get():
 		if event.type == pg.QUIT:
@@ -78,11 +80,12 @@ while game_running:
 		elif event.type == pg.MOUSEBUTTONUP:
 			gune.unshoot()
 
-		allsprites.update()
+	allsprites.update()
 
-		# Draw Everything
-		allsprites.draw(screen)
-		pg.display.flip()
+	# Draw Everything
+	screen.blit(background, (0, 0))
+	allsprites.draw(screen)
+	screen.blit(title_text, title_text_rect)
 	
 	pg.display.update()
 # endregion
