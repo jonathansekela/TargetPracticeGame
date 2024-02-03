@@ -17,8 +17,6 @@ class Gun(pg.sprite.Sprite):
 		pos = pg.mouse.get_pos()
 		self.rect.center = pos
 		self.rect.move_ip(self.fist_offset)
-		# if self.shooting:
-		# 	self.rect.move_ip(15, 25)
 
 	def shoot(self, target):
 		# returns true if the reticle collides with the target

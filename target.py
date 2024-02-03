@@ -2,10 +2,12 @@
 
 import pygame as pg
 import load_functions as lf
+import random
 
 class Target(pg.sprite.Sprite):
 	def __init__(self, img, directory):
 		pg.sprite.Sprite.__init__(self)  # call Sprite initializer
+		random.seed()
 		self.image, self.rect = lf.load_image(img, directory, -1, 2)
 		screen = pg.display.get_surface()
 		self.area = screen.get_rect()
@@ -18,7 +20,8 @@ class Target(pg.sprite.Sprite):
 		if self.hit:
 			self._break()
 		else:
-			self._walk()
+			# self._walk()
+			self._appear()
 
 	def _walk(self):
 		# move the target across the screen, and turn at the ends
@@ -29,6 +32,11 @@ class Target(pg.sprite.Sprite):
 				newpos = self.rect.move((self.move, 0))
 				self.image = pg.transform.flip(self.image, True, False)
 		self.rect = newpos
+
+	def _appear(self):
+		#need random x, y coordinate in screen width and height
+		self.rect.x = random.randint(0, self.area.bottom)
+		self.rect.y = random.randint(0, self.area.right)
 
 	def _break(self):
 		# spin the target image
