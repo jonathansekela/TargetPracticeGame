@@ -14,6 +14,12 @@ class Target(pg.sprite.Sprite):
 		self.rect.topleft = 10, 90
 		self.move = 18
 		self.hit = False
+		self.current_time = pg.time.get_ticks()
+		self.last_update = pg.time.get_ticks()
+		self.__set_action_change_time_random()
+
+	def __set_action_change_time_random(self):
+		self.action_change_time = random.randint(1, 2) * 500 # .5 second intervals
 
 	def update(self):
 		# move or break, depending on target's state
@@ -35,8 +41,12 @@ class Target(pg.sprite.Sprite):
 
 	def _appear(self):
 		#need random x, y coordinate in screen width and height
-		self.rect.x = random.randint(0, self.area.bottom)
-		self.rect.y = random.randint(0, self.area.right)
+		self.current_time = pg.time.get_ticks()
+		if self.current_time - self.last_update >= self.action_change_time:
+			self.rect.x = random.randint(0, self.area.right - self.rect.width)
+			self.rect.y = random.randint(0, self.area.bottom - self.rect.height)
+			self.last_update = self.current_time
+			self.__set_action_change_time_random()
 
 	def _break(self):
 		# spin the target image

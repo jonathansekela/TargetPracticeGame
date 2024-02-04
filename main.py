@@ -57,8 +57,11 @@ sans_text_rect.center = (500, 250)
 shoot_sound = lf.load_sound("556 Single Isolated.mp3", "sfx/556 Gunshots")
 
 gune = gun.Gun("1.png", "sprites/green crosshairs")
-targ = target.Target("168.png", "sprites/red crosshairs")
-allsprites = pg.sprite.RenderPlain((targ, gune))
+# @todo: 143.png has a + inside the circle. Maybe this one's different enough?
+# Might just continue to use 168.png because of how different it is.
+targ = target.Target("168.png", "sprites/green crosshairs")
+badtarg = target.Target("152.png", "sprites/red crosshairs")
+allsprites = pg.sprite.RenderPlain((targ, badtarg, gune))
 
 clock = pg.time.Clock()
 pg.mouse.set_visible(False)
@@ -73,10 +76,13 @@ while game_running:
 			game_running = False
 		elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
 			game_running = False
-		elif event.type == pg.MOUSEBUTTONDOWN:
+		elif event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
 			shoot_sound.play()
 			if gune.shoot(targ):
 				targ.shot()
+			gune.unshoot() # reset gun and immediately check for next target
+			if gune.shoot(badtarg):
+				badtarg.shot()
 		elif event.type == pg.MOUSEBUTTONUP:
 			gune.unshoot()
 
@@ -84,8 +90,8 @@ while game_running:
 
 	# Draw Everything
 	screen.blit(background, (0, 0))
-	allsprites.draw(screen)
 	screen.blit(title_text, title_text_rect)
+	allsprites.draw(screen)
 	
 	pg.display.update()
 # endregion
