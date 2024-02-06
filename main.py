@@ -12,6 +12,9 @@ pg.mixer.pre_init(44100, -16, 2, 512)
 mixer.init()
 pg.init()
 
+# @todo: give instructions - shoot the good target, don't shoot the bad target
+# @todo: make it so the target doesn't always appear
+
 # region setup
 
 # region screen setup
@@ -105,24 +108,25 @@ while game_running:
 				user_hit = True
 				good_targ.shot()
 				score += score_increment
-				score_text = sans_font.render(
-					f'score: {score}', True, green, black)
+				score_text = sans_font.render(f'score: {score}', True, green, black)
 			player_reticle.unshoot()  # reset player_reticle and immediately check for next target
 			if player_reticle.shoot(bad_targ):
 				user_hit = True
 				bad_targ.shot()
-				if score > 0:
-					score -= score_increment
-				score_text = sans_font.render(
-					f'score: {score}', True, red, black)
+				score -= score_increment
+				if score < 0:
+					score = 0
+				score_text = sans_font.render(f'score: {score}', True, red, black)
 		elif event.type == pg.MOUSEBUTTONUP:
 			player_reticle.unshoot()
 
 	# decrement score by half if shoot and no hits
 	if user_shot and not user_hit:
 		score -= score_increment / 2
+		if score < 0:
+			score = 0
 		score_text = sans_font.render(f'score: {score}', True, yellow, black)
-
+	
 	gun_sprite.update()
 
 	# draw everything
