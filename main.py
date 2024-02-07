@@ -14,6 +14,7 @@ pg.init()
 
 # @todo: give instructions - shoot the good target, don't shoot the bad target
 # @todo: make it so the target doesn't always appear
+# @todo: get backend together - sql and db
 
 # region setup
 
@@ -56,8 +57,8 @@ yellow = (255, 255, 0)
 sans_bold_font = pg.font.Font('fonts/Pixeloid/TrueType (.ttf)/PixeloidSans-Bold.ttf', 32)
 sans_font = pg.font.Font('fonts/Pixeloid/TrueType (.ttf)/PixeloidSans.ttf', 32)
 
-title_text = sans_bold_font.render(
-	'SHOOT THE TARGETS AS THEY APPEAR', True, green, black)
+# @todo: just put the jpegs instead of descriptions.
+title_text = sans_bold_font.render('SHOOT THE CIRCLE. DON\'T SHOOT THE X.', True, green, black)
 title_text_rect = title_text.get_rect()
 title_text_rect.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 20)
 # endregion
