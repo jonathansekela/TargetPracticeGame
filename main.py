@@ -12,11 +12,11 @@ pg.mixer.pre_init(44100, -16, 2, 512)
 mixer.init()
 pg.init()
 
-# @todo: give instructions - shoot the good target, don't shoot the bad target
 # @todo: make it so the target doesn't always appear
 # @todo: get backend together - sql and db
 
 # region setup
+GAME_ID = 2
 
 # region screen setup
 SCREEN_WIDTH = 928
@@ -89,7 +89,9 @@ pg.mouse.set_visible(False)
 current_time = pg.time.get_ticks()
 last_update = pg.time.get_ticks()
 action_change_time = random.randint(1, 4) * 500  # 500 ms intervals
-update_good_targ = random.randint(0, 1) == 0
+update_good_targ = random.randint(0, 2) == 0
+update_bad_targ = random.randint(0, 2) == 1
+update_none = random.randint(0, 2) == 2
 
 # region game loop
 while game_running:
@@ -143,7 +145,7 @@ while game_running:
 		bad_targ_sprite.draw(screen)
 	if update_good_targ:
 		good_targ_sprite.draw(screen)
-	else:
+	elif update_bad_targ:
 		bad_targ_sprite.draw(screen)
 	
 	gun_sprite.draw(screen)
@@ -153,7 +155,9 @@ while game_running:
 		target_sprites.update()
 		last_update = current_time
 		action_change_time = random.randint(1, 4) * 500 # 500 ms intervals
-		update_good_targ = random.randint(0, 1) == 0
+		update_good_targ = random.randint(0, 2) == 0
+		update_bad_targ = random.randint(0, 2) == 1
+		update_none = random.randint(0, 2) == 2
 
 	pg.display.update()
 # endregion
